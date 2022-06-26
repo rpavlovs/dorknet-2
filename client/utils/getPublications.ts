@@ -23,9 +23,7 @@ export const whoCollectedRequest = (publicationId: string) => {
   });
 };
 
-export const whoCollected = async (publicationId: string) => {
+export const whoCollected = async (publicationId: string): Promise<string[]> => {
   const result = await whoCollectedRequest(publicationId);
-  prettyJSON('who collected: result', result.data);
-
-  return result.data;
+  return result.data.whoCollectedPublication.items.map(item => item.address) as string[];
 };

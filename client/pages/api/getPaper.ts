@@ -1,16 +1,15 @@
 import { whoCollected } from '../../utils/getPublications';
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
 
   const { publicationId, readerAddress, readerSignature } = req.body
   // get publicationId, signature and address from req
 
   // verify signature and address
 
-  console.log(publicationId)
-
   // query the lens GraphQl endpoint for the publicationId
-  console.log(whoCollected(publicationId))
+  const collectors = await whoCollected(publicationId)
+  console.log({collectors})
 
   // WhoCollectedPublicationRequest
 
@@ -21,5 +20,5 @@ export default function handler(req, res) {
 
   // otherwise return 403
 
-  res.status(200).json({ name: 'John Doe' })
+  res.status(200).json({ 'collectors': collectors })
 }
