@@ -16,7 +16,7 @@ import NextLink from 'next/link'
 import ReactPDF from 'react-pdf'
 
 const PAPER_TO_PUBLICATION_ID: { [key: string]: string } = {
-  '1': '0' + 'x3173-0x03',
+  '1': '0' + 'x84f7-0x03',
 }
 
 const Paper = () => {
@@ -62,7 +62,14 @@ const Paper = () => {
       <VStack pt={20}>
         {data == 'Forbidden' ? (
           <Heading color={'red.500'} pb={6}>
-            You have to claim the publication first
+            You have to claim the publication first on{' '}
+            <Link
+              href="https://lenster.xyz/posts/0x84f7-0x03"
+              color={'green.400'}
+              textDecoration="underline"
+            >
+              Lenster
+            </Link>
           </Heading>
         ) : (
           <Heading size="lg" pb={6}>
