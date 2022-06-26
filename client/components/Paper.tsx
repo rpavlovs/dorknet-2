@@ -55,7 +55,12 @@ const Paper = () => {
 
   console.log({ data, error })
 
-  if (!account) return <div />
+  if (!account)
+    return (
+      <Heading size="lg" pt={20}>
+        Connect your wallet <span style={{ fontSize: 50 }}>☝️☝️☝️</span>
+      </Heading>
+    )
 
   if (!signature || data == 'Forbidden')
     return (
