@@ -1,9 +1,10 @@
-import react from 'react'
+import react, { useMemo } from 'react'
 import { Text, Button, Heading, Flex, VStack, Spinner } from '@chakra-ui/react'
 import { useCallback, useContext, useState } from 'react'
 import { globalContext } from '../store'
 import { useQuery } from 'react-query'
 import { useRouter } from 'next/router'
+import { PrivyClient, SiweSession } from '@privy-io/privy-browser'
 
 const PAPER_TO_PUBLICATION_ID: { [key: string]: string } = {
   '1': '0' + 'x3173-0x03',
@@ -43,7 +44,44 @@ const Paper = () => {
     console.log({ signature })
   }, [account, web3?.eth])
 
-  console.log({ data, error })
+  ////
+
+  const client = useMemo(() => {
+    if (!web3?.eth?.currentProvider) return null
+
+    const session = new SiweSession(
+      process.env.NEXT_PUBLIC_PRIVY_API_KEY,
+      // @ts-ignore
+      web3.eth.currentProvider
+    )
+    return new PrivyClient({ session: session })
+  }, [web3?.eth?.currentProvider])
+
+  const fetchDataFromPrivy = useCallback(async () => {
+    try {
+      // Fetch user's name and favorite color from Privy
+      const [firstName, full_ipfs, abstract_ipfs] = await client.get(account, [
+        'pub-name',
+        'ipfs-full',
+        'ipfs-abstract-id-1',
+      ])
+      return {
+        userId: account,
+        firstName: firstName?.text(),
+        full_ipfs: full_ipfs?.text(),
+        abstract_ipfs: abstract_ipfs?.text(),
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }, [client, account])
+
+  const { data: privyData } = useQuery('privy', {
+    queryFn: fetchDataFromPrivy,
+    enabled: !!client && !!account,
+  })
+
+  console.log({ data, privyData, error })
 
   if (!account) return <div />
 
