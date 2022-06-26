@@ -1,11 +1,9 @@
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
-import { Component } from 'react'
 import Layout from '../components/Layout'
 import ConnectButton from '../components/ConnectButton'
-import { useDisclosure } from '@chakra-ui/react'
+import { HStack, useDisclosure, VStack } from '@chakra-ui/react'
 import AccountModal from '../components/AccountModal'
-import Greeter from '../components/Greeter'
+import Paper from '../components/Paper'
 
 function Home() {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -20,34 +18,13 @@ function Home() {
         <link rel="manifest" href="/manifest.json" />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://github.com/limcheekin/eth-dapps-nextjs-boiletplate">{title}</a>
-        </h1>
-
-        <p className={styles.description}>
-          A simple dApps to demo the integration of MetaMask, WalletConnect and Greeter smart contract.
-        </p>
-
-        {
-        // Our connect button will only handle opening
-        }
-        <ConnectButton handleOpenModal={onOpen} />
-        {
-        // Our Account modal will handle open state & closing
-        }
+      <VStack width='100%' height="100vh" p={10}>
+        <HStack alignSelf="flex-end">
+          <ConnectButton handleOpenModal={onOpen} />
+        </HStack>
+        <Paper />
         <AccountModal isOpen={isOpen} onClose={onClose} />
-        <Greeter />
-      </main>
-
-      <footer className={styles.footer}>
-        Powered by{' '}
-        <img className={styles.logo} src="/logos/ethereum.png" alt="Ethereum Logo" width="144" height="32" />
-        <img className={styles.logo} src="/logos/nextjs.png" alt="NextJS Logo" width="64" height="32" />
-        <img className={styles.logo} src="/logos/metamask.png" alt="MetaMask Logo" width="128" height="32" />
-        <img className={styles.logo} src="/logos/walletconnect.png" alt="WalletConnect Logo" width="128" height="32" />
-        { process.env.NEXT_PUBLIC_GITHUB_RUN_NUMBER && <div className={styles.logo}>b{process.env.NEXT_PUBLIC_GITHUB_RUN_NUMBER}</div> }
-      </footer>
+      </VStack>
     </Layout>
   )
 }
