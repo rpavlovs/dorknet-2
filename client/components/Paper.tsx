@@ -1,9 +1,19 @@
 import react from 'react'
-import { Text, Button, Heading, Flex, VStack, Spinner } from '@chakra-ui/react'
+import {
+  Text,
+  Button,
+  Heading,
+  Flex,
+  VStack,
+  Spinner,
+  Link,
+} from '@chakra-ui/react'
 import { useCallback, useContext, useState } from 'react'
 import { globalContext } from '../store'
 import { useQuery } from 'react-query'
 import { useRouter } from 'next/router'
+import NextLink from 'next/link'
+import ReactPDF from 'react-pdf'
 
 const PAPER_TO_PUBLICATION_ID: { [key: string]: string } = {
   '1': '0' + 'x3173-0x03',
@@ -64,8 +74,30 @@ const Paper = () => {
 
   if (!data || isLoading) return <Spinner />
 
-  const text = data
-  return <Text>{text}</Text>
+  const url = data
+
+  // return (
+  //   <object data={url} type="application/pdf" width="100%" height="100%">
+  //     <p>
+  //       Alternative text - include a link <a href={url}>to the PDF!</a>
+  //     </p>
+  //   </object>
+  // )
+
+  return (
+    <ReactPDF
+      file={{
+        url,
+      }}
+    />
+  )
+  // return (
+  //   <NextLink href={url} passHref>
+  //     <Link color="blue.300" fontWeight={'bold'}>
+  //       {url}
+  //     </Link>
+  //   </NextLink>
+  // )
 }
 
 export default Paper

@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import { whoCollected } from '../../utils/getPublications'
 
 export default async function handler(req, res) {
@@ -13,10 +12,10 @@ export default async function handler(req, res) {
   const collectors = await whoCollected(publicationId)
   console.log({ collectors })
 
-  if (!collectors.map(_.toLower).includes(_.toLower(readerAddress))) {
-    res.status(200).json({ body: 'Forbidden' })
-    return
-  }
+  //get publication data (name, abstract link, full link)
+
+  //put publication data in privy (name, abstract link, full link)
+
   // fetch the ipfs hash for the publicationId
-  res.status(200).json({ body: 'https://storageapi.fleek.co/3734967f-0120-45bd-bc88-c7a4970f87ca-bucket/file-1656214807349' })
+  res.status(200).json({ body: 'THE BITCOIN WHITEPAPER!' })
 }
