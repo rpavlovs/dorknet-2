@@ -1,24 +1,22 @@
-import { whoCollected } from '../../utils/getPublications';
+import _ from 'lodash'
+import { whoCollected } from '../../utils/getPublications'
 
 export default async function handler(req, res) {
+  const { publicationId, readerAddress, readerSignature } = JSON.parse(req.body)
 
-  const { publicationId, readerAddress, readerSignature } = req.body
+  console.log({ body: req.body })
   // get publicationId, signature and address from req
 
   // verify signature and address
 
   // query the lens GraphQl endpoint for the publicationId
   const collectors = await whoCollected(publicationId)
-  console.log({collectors})
+  console.log({ collectors })
 
-  // WhoCollectedPublicationRequest
-
-  // check that address in one of the addresses who collected the publication
-
+  if (!collectors.map(_.toLower).includes(_.toLower(readerAddress))) {
+    res.status(200).json({ body: 'Forbidden' })
+    return
+  }
   // fetch the ipfs hash for the publicationId
-  // and return it
-
-  // otherwise return 403
-
-  res.status(200).json({ 'collectors': collectors })
+  res.status(200).json({ body: 'THE BITCOIN WHITEPAPER!' })
 }

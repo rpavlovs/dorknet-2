@@ -1,6 +1,6 @@
-import { gql } from '@apollo/client/core';
-import { apolloClient } from './apollo-client';
-import { prettyJSON } from './helpers';
+import { gql } from '@apollo/client/core'
+import { apolloClient } from './apollo-client'
+import { prettyJSON } from './helpers'
 
 const WHO_COLLECTED = `
   query($request: WhoCollectedPublicationRequest!) {
@@ -10,7 +10,7 @@ const WHO_COLLECTED = `
       }
     }
   }
-`;
+`
 
 export const whoCollectedRequest = (publicationId: string) => {
   return apolloClient.query({
@@ -20,10 +20,15 @@ export const whoCollectedRequest = (publicationId: string) => {
         publicationId,
       },
     },
-  });
-};
+  })
+}
 
-export const whoCollected = async (publicationId: string): Promise<string[]> => {
-  const result = await whoCollectedRequest(publicationId);
-  return result.data.whoCollectedPublication.items.map(item => item.address) as string[];
-};
+export const whoCollected = async (
+  publicationId: string
+): Promise<string[]> => {
+  console.log({ publicationId })
+  const result = await whoCollectedRequest(publicationId)
+  return result.data.whoCollectedPublication.items.map(
+    item => item.address
+  ) as string[]
+}

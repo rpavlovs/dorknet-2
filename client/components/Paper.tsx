@@ -6,7 +6,7 @@ import { useQuery } from 'react-query'
 import { useRouter } from 'next/router'
 
 const PAPER_TO_PUBLICATION_ID: { [key: string]: string } = {
-  '1': '0x3173-0x03',
+  '1': '0' + 'x3173-0x03',
 }
 
 const Paper = () => {
@@ -32,7 +32,7 @@ const Paper = () => {
       })
       const result = await response.json()
       console.log({ result })
-      return result as string
+      return result?.body as string
     },
   })
 
@@ -43,11 +43,11 @@ const Paper = () => {
     console.log({ signature })
   }, [account, web3?.eth])
 
-  console.log({ data })
+  console.log({ data, error })
 
   if (!account) return <div />
 
-  if (!signature)
+  if (!signature || data == 'Forbidden')
     return (
       <VStack pt={20}>
         <Heading size="lg" pb={10}>
@@ -56,13 +56,16 @@ const Paper = () => {
         <Button size="lg" variant="solid" bg={'red.100'} onClick={handleSign}>
           Sign
         </Button>
+        {data == 'Forbidden' && (
+          <Text>You have to claim the publication first</Text>
+        )}
       </VStack>
     )
 
   if (!data || isLoading) return <Spinner />
 
-  const text = data as string
-  return <Text>{'asdf'}</Text>
+  const text = data
+  return <Text>{text}</Text>
 }
 
 export default Paper
