@@ -20,6 +20,7 @@ export default function Layout({ children }: Props) {
       alignItems="center"
       justifyContent="center"
       h="100vh"
+      width="100%"
       bg="white"
     >
       <Head>
@@ -28,11 +29,17 @@ export default function Layout({ children }: Props) {
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
       </Head>
-      <VStack width="100%" height="100vh" p={10}>
-        <HStack alignSelf="flex-end">
-          <ConnectButton handleOpenModal={onOpen} />
-          <AccountModal isOpen={isOpen} onClose={onClose} />
-        </HStack>
+      <HStack alignSelf="flex-end" p={10}>
+        <ConnectButton handleOpenModal={onOpen} />
+        <AccountModal isOpen={isOpen} onClose={onClose} />
+      </HStack>
+      <VStack
+        width="100%"
+        height="100vh"
+        alignItems="center"
+        justifyContent="center"
+        mb={'30%'}
+      >
         {children}
       </VStack>
     </Flex>

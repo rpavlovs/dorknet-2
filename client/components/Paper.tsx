@@ -60,15 +60,19 @@ const Paper = () => {
   if (!signature || data == 'Forbidden')
     return (
       <VStack pt={20}>
-        <Heading size="lg" pb={10}>
-          Sign message to prove you have collected the publication
-        </Heading>
+        {data == 'Forbidden' ? (
+          <Heading color={'red.500'} pb={6}>
+            You have to claim the publication first
+          </Heading>
+        ) : (
+          <Heading size="lg" pb={6}>
+            Sign message to prove you have collected the publication
+          </Heading>
+        )}
+
         <Button size="lg" variant="solid" bg={'red.100'} onClick={handleSign}>
           Sign
         </Button>
-        {data == 'Forbidden' && (
-          <Text>You have to claim the publication first</Text>
-        )}
       </VStack>
     )
 
@@ -85,12 +89,20 @@ const Paper = () => {
   // )
 
   return (
-    <ReactPDF
-      file={{
-        url,
-      }}
-    />
+    <>
+      <Heading pb={6}>Your paper is Unlocked!</Heading>
+      <Button
+        size={'lg'}
+        bg={'green.100'}
+        onClick={() => {
+          window.open(url, '_blank')
+        }}
+      >
+        Download the Paper
+      </Button>
+    </>
   )
+
   // return (
   //   <NextLink href={url} passHref>
   //     <Link color="blue.300" fontWeight={'bold'}>
