@@ -105,7 +105,7 @@ const Paper = () => {
           window.open(url, '_blank')
         }}
       >
-        Download the Paper
+        View Paper
       </Button>
     </>
   )
