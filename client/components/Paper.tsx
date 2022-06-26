@@ -19,18 +19,21 @@ const Paper = () => {
 
   const [signature, setSignature] = useState<string>()
 
-  const { isLoading, error, data } = useQuery('paper', async () => {
-    const response = await fetch('/api/getPaper', {
-      method: 'POST',
-      body: JSON.stringify({
-        publicationId,
-        readerAddress: account,
-        readerSignature: signature,
-      }),
-    })
-    const result = await response.json()
-    console.log({ result })
-    return result as string
+  const { isLoading, error, data } = useQuery('paper', {
+    enabled: !!signature,
+    queryFn: async () => {
+      const response = await fetch('/api/getPaper', {
+        method: 'POST',
+        body: JSON.stringify({
+          publicationId,
+          readerAddress: account,
+          readerSignature: signature,
+        }),
+      })
+      const result = await response.json()
+      console.log({ result })
+      return result as string
+    },
   })
 
   const handleSign = useCallback(async () => {
@@ -39,6 +42,8 @@ const Paper = () => {
     setSignature(signature)
     console.log({ signature })
   }, [account, web3?.eth])
+
+  console.log({ data })
 
   if (!account) return <div />
 
@@ -53,8 +58,6 @@ const Paper = () => {
         </Button>
       </VStack>
     )
-
-  console.log({ data })
 
   if (!data || isLoading) return <Spinner />
 
