@@ -1,3 +1,5 @@
+import { whoCollected } from '../../utils/getPublications';
+
 export default function handler(req, res) {
 
   const { publicationId, readerAddress, readerSignature } = req.body
@@ -5,7 +7,11 @@ export default function handler(req, res) {
 
   // verify signature and address
 
+  console.log(publicationId)
+
   // query the lens GraphQl endpoint for the publicationId
+  console.log(whoCollected(publicationId))
+
   // WhoCollectedPublicationRequest
 
   // check that address in one of the addresses who collected the publication
